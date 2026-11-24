@@ -1,0 +1,41 @@
+# One pass every 6 hours (docs/architecture.md): sources downloaded, mapped to the channel IDs of worldwide-tv-logos,
+# merged, archived (one release asset per day, deleted after 7 days) and published on GitHub Pages (J-7 to J+7).
+# Nothing is committed: the repository holds only the code.
+name: run
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+permissions:
+  contents: write      # release assets (daily archives)
+  pages: write
+  id-token: write
+concurrency: run
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync
+      - name: daily archives of the window, from the release `archive`
+        run: |
+          mkdir -p archive
+          gh release view archive >/dev/null 2>&1 || gh release create archive --title "Daily archives" \
+            --notes "One asset per UTC day (programmes per channel), updated every 6 hours, deleted after 7 days."
+          gh release download archive --dir archive --pattern '*.json.gz' --clobber || true
+      - run: uv run epg run --archive archive --out public
+      - run: uv run epg check --out public
+      - name: archives back to the release, expired ones deleted
+        run: .github/scripts/archives.sh archive
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+      - id: deploy
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,18 @@
+name: check
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync
+      - name: workflow files are valid YAML (GitHub silently skips an invalid one)
+        run: uv run --with pyyaml python -c "import sys, yaml; [yaml.safe_load(open(f, encoding='utf-8')) for f in sys.argv[1:]]" .github/workflows/*.yml
+      - run: uv run ruff check .
+      - run: uv run pytest -q
+      - run: uv run epg sources
