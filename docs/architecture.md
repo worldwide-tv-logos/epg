@@ -15,7 +15,8 @@ This repository never changes the registry: it reads `channels.json` and `guides
 1. **Collect**: every source of `sources.toml`, one after the other. A source that fails is skipped and reported;
    its channels keep their archived programmes.
 2. **Map** each guide channel to a registry channel: its guide ID in `guides.json` (score of at least 0.9, one best
-   channel), else a name (or alias) unique among the registry channels of the source's countries. An ambiguous
+   channel), else its guide ID when it is the iptv-org ID of a registry channel, else a name (or alias, country
+   prefix such as "UK - " dropped) unique among the registry channels of the source's countries. An ambiguous
    name maps to nothing: nothing is guessed.
 3. **Archives**: the daily archives of the window are downloaded from the release `archive` (the sources do not
    give the past days back).

@@ -1,9 +1,11 @@
 """The channel registry of worldwide-tv-logos (channels.json, guides.json): our only source of channel IDs.
 
 A guide channel maps to a registry channel by its guide ID (guides.json, score >= MIN_SCORE, one best channel),
-otherwise by a name unique among the registry channels of the source's countries. Nothing is guessed: an
-ambiguous name maps to nothing."""
+else by its guide ID when it is the iptv-org ID of a registry channel (iptv-epg uses them), otherwise by a name
+unique among the registry channels of the source's countries ("UK - BBC One": the country prefix is dropped).
+Nothing is guessed: an ambiguous name maps to nothing."""
 import json
+import re
 import urllib.request
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -11,18 +13,21 @@ from dataclasses import dataclass, field
 from worldwide_tv_epg import config
 from worldwide_tv_epg.text import match_key
 
+_PREFIX = re.compile(r'^[A-Z]{2,3}\s+-\s+')     # "UK - BBC One", "IE - RTÉ One"
+
 
 @dataclass
 class Registry:
     channels: dict[str, dict] = field(default_factory=dict)                  # ch_ id -> channel record
     by_guide: dict[tuple[str, str], str] = field(default_factory=dict)       # (source, guide id) -> ch_ id
+    by_iptv: dict[str, str] = field(default_factory=dict)                    # iptv-org id -> ch_ id
     by_name: dict[tuple[str, str], set[str]] = field(default_factory=dict)   # (country, name key) -> ch_ ids
 
     def resolve(self, source: str, guide_id: str, names: list[str], countries: tuple[str, ...]) -> str | None:
-        found = self.by_guide.get((source, guide_id))
+        found = self.by_guide.get((source, guide_id)) or self.by_iptv.get(guide_id)
         if found:
             return found
-        for name in names:
+        for name in dict.fromkeys(_PREFIX.sub('', n) for n in names):
             ids: set[str] = set()
             for cc in countries:
                 ids |= self.by_name.get((cc, match_key(name)), set())
@@ -38,6 +43,8 @@ def build(channels_json: dict, guides_json: dict, min_score: float = config.MIN_
         if c.get('status') != 'active':
             continue
         reg.channels[c['id']] = c
+        if c.get('iptv'):
+            reg.by_iptv[c['iptv']] = c['id']
         for n in [c.get('name', ''), *(c.get('aliases') or [])]:
             k = match_key(n)
             if k:

@@ -9,6 +9,11 @@ def test_name_unique_in_the_source_countries(reg):
     assert reg.resolve('xmltvfr', 'x3', ['La Une'], ('fr',)) is None          # not in the source's countries
 
 
+def test_iptv_org_id_and_country_prefix(reg):
+    assert reg.resolve('iptv-epg-uk', 'BBCOne.uk', [], ('uk',)) == 'ch_bb1'
+    assert reg.resolve('iptv-epg-uk', 'x', ['UK - BBC Two'], ('uk',)) == 'ch_bb2'
+
+
 def test_ambiguous_or_closed_maps_to_nothing(reg):
     assert reg.resolve('xmltvfr', 'x4', ['M6'], ('fr',)) is None
     assert reg.resolve('iptv-epg-fr', 'Old.fr', ['Old'], ('fr',)) is None

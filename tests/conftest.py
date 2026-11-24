@@ -6,6 +6,8 @@ CHANNELS = {'channels': [
     {'id': 'ch_tf1', 'name': 'TF1', 'country': 'fr', 'status': 'active', 'aliases': ['TF 1'], 'logo': 'https://x/tf1.png'},
     {'id': 'ch_fr2', 'name': 'France 2', 'country': 'fr', 'status': 'active', 'aliases': []},
     {'id': 'ch_la1', 'name': 'La Une', 'country': 'be', 'status': 'active', 'aliases': []},
+    {'id': 'ch_bb1', 'name': 'BBC One', 'country': 'uk', 'status': 'active', 'aliases': [], 'iptv': 'BBCOne.uk'},
+    {'id': 'ch_bb2', 'name': 'BBC Two', 'country': 'uk', 'status': 'active', 'aliases': []},
     {'id': 'ch_m6a', 'name': 'M6', 'country': 'fr', 'status': 'active', 'aliases': []},
     {'id': 'ch_m6b', 'name': 'M6', 'country': 'fr', 'status': 'active', 'aliases': []},   # same name: ambiguous
     {'id': 'ch_old', 'name': 'Old', 'country': 'fr', 'status': 'closed', 'aliases': []},
