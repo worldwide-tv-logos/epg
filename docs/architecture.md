@@ -18,18 +18,19 @@ This repository never changes the registry: it reads `channels.json` and `guides
    channel), else its guide ID when it is the iptv-org ID of a registry channel, else a name (or alias, country
    prefix such as "UK - " dropped) unique among the registry channels of the source's countries. An ambiguous
    name maps to nothing: nothing is guessed.
-3. **Archives**: the daily archives of the window are downloaded from the release `archive` (the sources do not
-   give the past days back).
+3. **Archives**: the guides already published for the window are downloaded from the daily releases (the sources
+   do not give the past days back).
 4. **Merge**, per channel: the source covering the most hours of the next 7 days; ties go to the first source of
    `sources.toml`. For each day, a channel's fresh programmes replace its archived ones; a channel missing from
    today's sources keeps its archived programmes (last good version).
-5. **Archive** the days of the window (one asset per UTC day, `<YYYY-MM-DD>.json.gz`) and **delete** the archives
-   older than 7 days.
-6. **Publish** from 7 days ago to 7 days ahead: XMLTV per country and for every channel, JSON per channel and
-   per day, `index.json`, `status.json`; **check** (channels with programmes today, published size under the
-   alert threshold before the 1 GB limit of GitHub Pages), then **deploy** on GitHub Pages.
+5. **Publish** from 7 days ago to 7 days ahead, one XMLTV guide and one JSON guide per country and per UTC day
+   (`<cc>/<YYYY-MM-DD>.xml.gz`, `<cc>/<YYYY-MM-DD>.json`), `index.json`, `status.json`; **check** (channels with
+   programmes today, today's file of each country, published size under the alert threshold before the 1 GB limit
+   of GitHub Pages).
+6. **Release** each day (tag `<YYYY-MM-DD>`, `<cc>.xml.gz` and `<cc>.json.gz`): only the country guides that
+   changed are uploaded; releases older than 30 days are deleted. Then **deploy** on GitHub Pages.
 
-Nothing is committed: each deployment replaces the previous site and the archives live in a release, so the
+Nothing is committed: each deployment replaces the previous site and the archives are the daily releases, so the
 repository holds only the code.
 
 ## Modules
@@ -40,6 +41,6 @@ repository holds only the code.
 | `registry.py` | channels and guide IDs of the registry, mapping of a guide channel |
 | `xmltv.py` | reading XMLTV (plain, gzip, xz), the `Programme` record |
 | `merge.py` | one guide per channel |
-| `window.py` | window of days, daily archives |
-| `publish.py` | published files |
+| `window.py` | window of days, past days read back from the daily releases |
+| `publish.py` | guides per country and per day (site and releases), `index.json` |
 | `cli.py` | `epg sources`, `epg run`, `epg check` |

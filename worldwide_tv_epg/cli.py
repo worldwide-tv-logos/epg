@@ -1,7 +1,7 @@
 """Command line: `uv run epg <command>`.
 
   sources            list the sources of sources.toml
-  run                one pass: download, map, merge, archive, publish (see docs/architecture.md)
+  run                one pass: download, map, merge, publish (see docs/architecture.md)
   check              checks on a published folder: freshness, coverage, size
 """
 import argparse
@@ -54,20 +54,10 @@ def cmd_run(args) -> int:
     print(f'merged: {len(fresh)} registry channels with a guide')
 
     archive = Path(args.archive)
-    archive.mkdir(parents=True, exist_ok=True)
-    archived = {}
-    for day in days:
-        f = archive / window.archive_name(day)
-        if f.is_file():
-            archived[day] = window.read_archive(f)
+    archived = {day: window.read_day(archive / day.isoformat()) for day in days if (archive / day.isoformat()).is_dir()}
     combined = window.combine(window.by_day(fresh), archived, days)
-    for day, per_channel in combined.items():
-        window.write_archive(archive / window.archive_name(day), per_channel)
-    for name in window.expired([f.name for f in archive.glob('*.json.gz')], today):
-        (archive / name).unlink()
-        print(f'archive removed: {name}')
 
-    index = publish.write(Path(args.out), reg, combined, chosen, now)
+    index = publish.write(Path(args.out), Path(args.releases), reg, combined, chosen, now)
     (Path(args.out) / 'status.json').write_text(json.dumps({'generated': index['generated'], 'sources': status},
                                                            indent=1), encoding='utf-8')
     print(f'published: {len(index["channels"])} channels, {len(index["countries"])} countries, '
@@ -83,6 +73,9 @@ def cmd_check(args) -> int:
     lines, failed = ['## Guides', '', '| Country | Channels | With today |', '|---|---|---|'], False
     for cc in index['countries']:
         chans = [c for c in index['channels'].values() if c['country'] == cc]
+        if not (out / cc / f'{today}.json').is_file() and any(today in c['days'] for c in chans):
+            failed = True
+            lines.append(f'| {cc} | missing file {cc}/{today}.json | |')
         lines.append(f'| {cc} | {len(chans)} | {sum(today in c["days"] for c in chans)} |')
     with_today = sum(today in c['days'] for c in index['channels'].values())
     size = publish.size(out)
@@ -109,9 +102,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument('--sources', default=str(ROOT / 'sources.toml'))
     sub = p.add_subparsers(dest='command', required=True)
     sub.add_parser('sources', help='list the sources').set_defaults(func=cmd_sources)
-    r = sub.add_parser('run', help='one pass: download, map, merge, archive, publish')
+    r = sub.add_parser('run', help='one pass: download, map, merge, publish')
     r.add_argument('--registry', default=config.REGISTRY_URL)
-    r.add_argument('--archive', default='archive', help='daily archives (synced with the release by the workflow)')
+    r.add_argument('--archive', default='archive', help='past days: the daily releases, downloaded by the workflow')
+    r.add_argument('--releases', default='releases', help='files of the daily releases, uploaded by the workflow')
     r.add_argument('--out', default='public', help='folder published on GitHub Pages')
     r.set_defaults(func=cmd_run)
     c = sub.add_parser('check', help='freshness, coverage and size of a published folder')

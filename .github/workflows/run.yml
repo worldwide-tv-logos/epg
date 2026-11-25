@@ -1,5 +1,6 @@
 # One pass every 6 hours (docs/architecture.md): sources downloaded, mapped to the channel IDs of worldwide-tv-logos,
-# merged, archived (one release asset per day, deleted after 7 days) and published on GitHub Pages (J-7 to J+7).
+# merged and published: one XMLTV and one JSON guide per country and per day, on GitHub Pages (J-7 to J+7) and in
+# one release per day (kept 30 days, also the archives of the past days).
 # Nothing is committed: the repository holds only the code.
 name: run
 on:
@@ -12,23 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     permissions:
-      contents: write      # release assets (daily archives)
+      contents: write      # daily releases
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.3.3
       - run: uv sync
-      - name: daily archives of the window, from the release `archive`
-        run: |
-          mkdir -p archive
-          gh release view archive >/dev/null 2>&1 || gh release create archive --title "Daily archives" \
-            --notes "One asset per UTC day (programmes per channel), updated every 6 hours, deleted after 7 days."
-          gh release download archive --dir archive --pattern '*.json.gz' --clobber || true
-      - run: uv run epg run --archive archive --out public
+      - name: guides already published for the window (past days, and a source that fails keeps its channels)
+        run: bash .github/scripts/releases.sh download archive "$(date -u -d '-7 days' +%F)" "$(date -u -d '+7 days' +%F)"
+      - run: uv run epg run --archive archive --releases releases --out public
       - run: uv run epg check --out public
-      - name: archives back to the release, expired ones deleted
-        run: .github/scripts/archives.sh archive
+      - name: daily releases (new or changed country guides), releases older than 30 days deleted
+        run: bash .github/scripts/releases.sh upload releases archive 30
       - uses: actions/upload-pages-artifact@v5
         with:
           path: public

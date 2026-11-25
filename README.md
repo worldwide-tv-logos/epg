@@ -8,30 +8,37 @@ Updated every 6 hours, from 7 days ago to 7 days ahead.
 
 ## Files
 
+One XMLTV guide and one JSON guide per country and per UTC day, with the same content.
+
 | File | Content |
 |---|---|
-| `<country>.xml.gz` | XMLTV guide of a country (e.g. `fr.xml.gz`), for IPTV players |
-| `all.xml.gz` | XMLTV guide of every channel |
-| `<channel id>/<YYYY-MM-DD>.json` | programmes of one channel for one UTC day, a few KB, for applications |
-| `index.json` | countries, channels, published days and the source chosen for each channel |
+| `<country>/<YYYY-MM-DD>.xml.gz` | XMLTV guide of a country for one day (e.g. `fr/2026-11-25.xml.gz`), for IPTV players |
+| `<country>/<YYYY-MM-DD>.json` | the same guide in JSON, for applications |
+| `index.json` | countries, days and channels published, and the source chosen for each channel |
 | `status.json` | state of each source at the last run |
 
-Base URL: `https://worldwide-tv-logos.github.io/epg/` (a single public domain later).
+Base URL: `https://worldwide-tv-logos.github.io/epg/` (a single public domain later), from 7 days ago to 7 days
+ahead. The [releases](https://github.com/worldwide-tv-logos/epg/releases) keep 30 days: one release per day
+(`2026-11-25`), with `<country>.xml.gz` and `<country>.json.gz`.
 
 ```json
-{"channel": "ch_ccg64xsq5h", "date": "2026-11-24", "programmes": [
-  {"start": "2026-11-24T19:00:00Z", "stop": "2026-11-24T19:45:00Z", "title": "Le journal", "categories": ["News"]}
+{"country": "fr", "date": "2026-11-25", "channels": [
+  {"id": "ch_ccg64xsq5h", "name": "TF1", "logo": "https://worldwide-tv-logos.github.io/database/logos/ch_ccg64xsq5h.png",
+   "programmes": [
+     {"start": "2026-11-25T19:00:00Z", "stop": "2026-11-25T19:45:00Z", "title": "Le journal", "categories": ["News"]}
+   ]}
 ]}
 ```
 
-Times are UTC (ISO 8601). Channel IDs, names, countries and logos: `channels.json` of worldwide-tv-logos.
+A day is a UTC day: a programme belongs to the day it starts. Times are UTC (ISO 8601). The channel IDs are those
+of worldwide-tv-logos (`channels.json`): one ID gives both the logo and the guide.
 
 ## How it works
 
 See [docs/architecture.md](docs/architecture.md). In short: every source of [sources.toml](sources.toml) is
 downloaded, each guide channel is mapped to a registry channel (by its guide ID in the registry's `guides.json`,
 else by a name unique in the source's countries), the source covering the most of the coming days wins for each
-channel, and the result is published on GitHub Pages. Past days come from daily archives kept as release assets.
+channel, and the result is published on GitHub Pages and in the daily releases, which also give back the past days.
 
 ## Development
 
