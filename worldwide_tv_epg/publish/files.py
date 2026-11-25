@@ -7,59 +7,18 @@ GitHub Pages (the window, 7 days before today to 7 days after):
 - `status.json`: state of each source at the last run (written by the command line).
 
 Releases (one per UTC day, tag `<YYYY-MM-DD>`, kept 30 days by the workflow): `<cc>.xml.gz` and `<cc>.json.gz`, the same
-guides; they are also the archives read back for the past days of the window (window.py)."""
+guides; they are also the archives read back for the past days of the window (pipeline/window.py)."""
 import gzip
 import json
-import xml.etree.ElementTree as ET
 from collections import defaultdict
 from datetime import UTC, date, datetime
 from pathlib import Path
 
 from worldwide_tv_epg import config
-from worldwide_tv_epg.registry import Registry
-from worldwide_tv_epg.xmltv import Programme
-
-
-def _xmltv_time(when: datetime) -> str:
-    return when.astimezone(UTC).strftime('%Y%m%d%H%M%S +0000')
-
-
-def _logo(channel: dict) -> str:
-    return channel.get('logo_white') or channel.get('logo') or ''
-
-
-def xmltv(channels: list[dict], programmes: dict[str, list[Programme]]) -> bytes:
-    tv = ET.Element('tv', {'generator-info-name': 'worldwide-tv-epg'})
-    for c in channels:
-        ch = ET.SubElement(tv, 'channel', {'id': c['id']})
-        ET.SubElement(ch, 'display-name').text = c.get('name', c['id'])
-        if _logo(c):
-            ET.SubElement(ch, 'icon', {'src': _logo(c)})
-    for c in channels:
-        for p in programmes.get(c['id'], []):
-            attrs = {'start': _xmltv_time(p.start), 'channel': c['id']}
-            if p.stop:
-                attrs['stop'] = _xmltv_time(p.stop)
-            el = ET.SubElement(tv, 'programme', attrs)
-            ET.SubElement(el, 'title').text = p.title
-            if p.subtitle:
-                ET.SubElement(el, 'sub-title').text = p.subtitle
-            if p.desc:
-                ET.SubElement(el, 'desc').text = p.desc
-            for cat in p.categories:
-                ET.SubElement(el, 'category').text = cat
-            if p.episode:
-                ET.SubElement(el, 'episode-num', {'system': 'onscreen'}).text = p.episode
-            if p.icon:
-                ET.SubElement(el, 'icon', {'src': p.icon})
-    return b'<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(tv, encoding='utf-8')
-
-
-def guide_json(country: str, day: date, channels: list[dict], programmes: dict[str, list[Programme]]) -> bytes:
-    data = {'country': country, 'date': day.isoformat(), 'channels': [
-        {'id': c['id'], 'name': c.get('name', c['id']), **({'logo': _logo(c)} if _logo(c) else {}),
-         'programmes': [p.to_dict() for p in programmes[c['id']]]} for c in channels]}
-    return json.dumps(data, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
+from worldwide_tv_epg.model import Programme
+from worldwide_tv_epg.pipeline.mapping import Registry
+from worldwide_tv_epg.publish.guide_json import guide_json
+from worldwide_tv_epg.publish.xmltv import xmltv
 
 
 def by_country(registry: Registry, per_channel: dict[str, list[Programme]]) -> dict[str, list[dict]]:

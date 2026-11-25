@@ -1,6 +1,6 @@
 import pytest
 
-from worldwide_tv_epg import registry
+from worldwide_tv_epg.pipeline import mapping
 
 CHANNELS = {'channels': [
     {'id': 'ch_tf1', 'name': 'TF1', 'country': 'fr', 'status': 'active', 'aliases': ['TF 1'], 'logo': 'https://x/tf1.png'},
@@ -21,4 +21,4 @@ GUIDES = {'guides': {'iptv-epg-fr': {
 
 @pytest.fixture
 def reg():
-    return registry.build(CHANNELS, GUIDES)
+    return mapping.build(CHANNELS, GUIDES)

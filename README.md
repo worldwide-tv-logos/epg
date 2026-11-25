@@ -35,10 +35,11 @@ of worldwide-tv-logos (`channels.json`): one ID gives both the logo and the guid
 
 ## How it works
 
-See [docs/architecture.md](docs/architecture.md). In short: every source of [sources.toml](sources.toml) is
-downloaded, each guide channel is mapped to a registry channel (by its guide ID in the registry's `guides.json`,
-else by a name unique in the source's countries), the source covering the most of the coming days wins for each
-channel, and the result is published on GitHub Pages and in the daily releases, which also give back the past days.
+See [docs/architecture.md](docs/architecture.md). In short: every feed declared in [sources/](sources) (one file
+per provider) is downloaded, each guide channel is mapped to a registry channel (by its guide ID in the registry's
+`guides.json`, else by a name unique in the source's countries), the feed covering the most of the coming days wins
+for each channel, and the result is published on GitHub Pages and in the daily releases, which also give back the
+past days. To add a source: [docs/adding-a-source.md](docs/adding-a-source.md).
 
 ## Development
 
@@ -46,7 +47,8 @@ channel, and the result is published on GitHub Pages and in the daily releases, 
 uv sync
 uv run pytest -q
 uv run ruff check .
-uv run epg sources
-uv run epg run --archive archive --out public   # a real pass (downloads every source)
+uv run epg sources                                            # feeds, in the order they are used
+uv run epg run --cache cache --archive archive --out public   # a real pass; downloads saved in cache/
+uv run epg run --cache cache --archive archive --out public   # again: replayed on the same files, no download
 uv run epg check --out public
 ```

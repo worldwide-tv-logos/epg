@@ -10,5 +10,11 @@ PAST_DAYS = 7          # days kept before today (the sources do not give them ba
 FUTURE_DAYS = 7        # days published after today
 MIN_SCORE = 0.9        # a guide ID of guides.json maps to a channel only from this score
 SIZE_ALERT = 900 * 1024 * 1024   # GitHub Pages sites are limited to 1 GB
+
+# downloads (net.py)
 USER_AGENT = 'worldwide-tv-epg (+https://github.com/worldwide-tv-logos/epg)'
 PAUSE = 2.0            # seconds between two downloads of the same run
+TIMEOUT = 300          # seconds
+ATTEMPTS = 3           # a busy site (429, 5xx) or a cut response is tried again
+RETRY_PAUSE = 30.0     # seconds before the second attempt, twice that before the third
+MAX_DOWNLOAD = 500 * 1024 * 1024   # bytes; the largest feed (iptv-epg US) is about 60 MB

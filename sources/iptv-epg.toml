@@ -1,103 +1,86 @@
-# Guide sources, in order of preference: when two sources cover a channel equally well, the first one wins.
-# `id` must match the source name used by the channel registry (guides.json of worldwide-tv-logos/database) so that
-# its guide IDs are mapped to our channel IDs; a source unknown to the registry is matched by channel name only.
-# `countries`: where the source's channels are looked for when matching by name.
-# `language`: preferred language of titles and descriptions when a programme has several.
+# IPTV-EPG.org: one XMLTV file per country, guide IDs are mostly iptv-org IDs (TF1.fr).
+# Files are behind a redirect (302) to a hashed path, followed by the downloader.
 
-[[source]]
+[provider]
+name = "IPTV-EPG.org"
+kind = "xmltv"
+rank = 1
+role = "main"
+
+[[feed]]
 id = "iptv-epg-fr"
-name = "IPTV-EPG.org France"
 url = "https://iptv-epg.org/files/epg-fr.xml.gz"
 countries = ["fr"]
 language = "fr"
 
-[[source]]
-id = "xmltvfr"
-name = "XML TV Fr"
-url = "https://xmltvfr.fr/xmltv/xmltv.xz"
-countries = ["fr", "be", "ch", "ca"]
-language = "fr"
-
-[[source]]
+[[feed]]
 id = "iptv-epg-be"
-name = "IPTV-EPG.org Belgium"
 url = "https://iptv-epg.org/files/epg-be.xml.gz"
 countries = ["be"]
 language = "fr"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-ch"
-name = "IPTV-EPG.org Switzerland"
 url = "https://iptv-epg.org/files/epg-ch.xml.gz"
 countries = ["ch"]
 language = "de"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-de"
-name = "IPTV-EPG.org Germany"
 url = "https://iptv-epg.org/files/epg-de.xml.gz"
 countries = ["de"]
 language = "de"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-at"
-name = "IPTV-EPG.org Austria"
 url = "https://iptv-epg.org/files/epg-at.xml.gz"
 countries = ["at"]
 language = "de"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-it"
-name = "IPTV-EPG.org Italy"
 url = "https://iptv-epg.org/files/epg-it.xml.gz"
 countries = ["it"]
 language = "it"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-es"
-name = "IPTV-EPG.org Spain"
 url = "https://iptv-epg.org/files/epg-es.xml.gz"
 countries = ["es"]
 language = "es"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-pt"
-name = "IPTV-EPG.org Portugal"
 url = "https://iptv-epg.org/files/epg-pt.xml.gz"
 countries = ["pt"]
 language = "pt"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-nl"
-name = "IPTV-EPG.org Netherlands"
 url = "https://iptv-epg.org/files/epg-nl.xml.gz"
 countries = ["nl"]
 language = "nl"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-uk"
-name = "IPTV-EPG.org United Kingdom"
 url = "https://iptv-epg.org/files/epg-gb.xml.gz"
 countries = ["uk"]
 language = "en"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-us"
-name = "IPTV-EPG.org United States"
 url = "https://iptv-epg.org/files/epg-us.xml.gz"
 countries = ["us"]
 language = "en"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-ca"
-name = "IPTV-EPG.org Canada"
 url = "https://iptv-epg.org/files/epg-ca.xml.gz"
 countries = ["ca"]
 language = "en"
 
-[[source]]
+[[feed]]
 id = "iptv-epg-pl"
-name = "IPTV-EPG.org Poland"
 url = "https://iptv-epg.org/files/epg-pl.xml.gz"
 countries = ["pl"]
 language = "pl"

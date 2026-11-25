@@ -12,7 +12,10 @@ are in English.
 - Nothing is guessed: a guide channel whose name matches several registry channels maps to nothing.
 - Nothing generated is committed (`archive/`, `releases/`, `public/`): guides live on GitHub Pages and in one
   release per day (one XMLTV and one JSON guide per country), which are also the archives.
-- A new source goes in `sources.toml` in its order of preference, with an `id` equal to the registry's source name
-  when the registry already maps its guide IDs (`guides.json`).
+- Sources are data: one file per provider in `sources/` ([docs/adding-a-source.md](docs/adding-a-source.md)).
+  Code is written only for a new kind of file (a reader in `worldwide_tv_epg/sources/`) or a new kind of
+  correction declared in the provider file, never for one source.
 - Before a pull request: `uv run pytest -q` and `uv run ruff check .`; for a source change, a local
-  `uv run epg run` on that source and the number of channels mapped in the description.
+  `uv run epg run --cache cache` and the channels read, mapped and chosen per feed (`status.json`) in the
+  description; for a code change that should not change the output, a replay on the same `--cache` folder before
+  and after, files compared.

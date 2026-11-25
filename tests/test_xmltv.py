@@ -2,7 +2,8 @@ import gzip
 import lzma
 from datetime import UTC, datetime
 
-from worldwide_tv_epg import xmltv
+from worldwide_tv_epg.model import Programme
+from worldwide_tv_epg.sources import xmltv
 
 SAMPLE = b'''<?xml version="1.0" encoding="UTF-8"?>
 <tv>
@@ -33,5 +34,5 @@ def test_compressed_files():
 
 def test_programme_round_trip():
     p = xmltv.parse(SAMPLE, 'fr').programmes['TF1.fr'][0]
-    assert xmltv.Programme.from_dict(p.to_dict()) == p
+    assert Programme.from_dict(p.to_dict()) == p
     assert p.to_dict()['start'] == '2026-11-24T19:00:00Z'
