@@ -1,8 +1,8 @@
-"""The published window (PAST_DAYS before today to FUTURE_DAYS after) and the daily archives.
+"""The published window (PAST_DAYS before today to FUTURE_DAYS after) and the archives of past days.
 
-An archive holds one UTC day: {channel id: [programmes starting that day]}, as `<YYYY-MM-DD>.json.gz`. The sources
-only give today and the next days, so the past days of the window come from the archives; a channel a source no
-longer gives keeps its last good programmes the same way."""
+The sources only give today and the next days, so the past days of the window come from the archives: the JSON
+guides of the daily releases (`<YYYY-MM-DD>/<cc>.json.gz`, see publish.py), downloaded by the workflow. A channel a
+source no longer gives keeps its last good programmes the same way."""
 import gzip
 import json
 from collections import defaultdict
@@ -25,19 +25,13 @@ def by_day(programmes: dict[str, list[Programme]]) -> dict[date, dict[str, list[
     return out
 
 
-def read_archive(path: Path) -> dict[str, list[Programme]]:
-    data = json.loads(gzip.decompress(path.read_bytes()))
-    return {cid: [Programme.from_dict(p) for p in progs] for cid, progs in data.items()}
-
-
-def write_archive(path: Path, day_programmes: dict[str, list[Programme]]) -> None:
-    data = {cid: [p.to_dict() for p in sorted(progs, key=lambda p: p.start)]
-            for cid, progs in sorted(day_programmes.items())}
-    path.write_bytes(gzip.compress(json.dumps(data, ensure_ascii=False, separators=(',', ':')).encode(), mtime=0))
-
-
-def archive_name(day: date) -> str:
-    return f'{day.isoformat()}.json.gz'
+def read_day(folder: Path) -> dict[str, list[Programme]]:
+    """Programmes of one archived day: every country guide `<cc>.json.gz` of its folder."""
+    out: dict[str, list[Programme]] = {}
+    for f in sorted(folder.glob('*.json.gz')):
+        for c in json.loads(gzip.decompress(f.read_bytes()))['channels']:
+            out[c['id']] = [Programme.from_dict(p) for p in c['programmes']]
+    return out
 
 
 def combine(fresh: dict[date, dict[str, list[Programme]]], archives: dict[date, dict[str, list[Programme]]],
@@ -49,16 +43,3 @@ def combine(fresh: dict[date, dict[str, list[Programme]]], archives: dict[date, 
         merged.update(fresh.get(day, {}))
         out[day] = merged
     return out
-
-
-def expired(names: list[str], today: date, past: int = config.PAST_DAYS) -> list[str]:
-    """Archive files older than the window (to delete)."""
-    first = today - timedelta(days=past)
-    out = []
-    for n in names:
-        try:
-            if date.fromisoformat(n.split('.')[0]) < first:
-                out.append(n)
-        except ValueError:
-            continue
-    return sorted(out)
