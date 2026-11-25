@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tv source-info-url="https://github.com/racacax/XML-TV-Fr" source-info-name="XML TV Fr" generator-info-name="XML TV Fr" generator-info-url="https://github.com/racacax/XML-TV-Fr">
+  <channel id="France2.fr">
+    <display-name>France 2</display-name>
+    <icon src="https://www.programme-tv.net/imgre/fit/~2~channel~606394a5b095653a.png/480x480/quality/100/france-2.png" />
+  </channel>
+  <channel id="TF1.fr">
+    <display-name>TF1</display-name>
+    <icon src="https://www.programme-tv.net/imgre/fit/~2~channel~f2b6de26acc4dc3e.png/480x480/quality/100/tf1.png" />
+  </channel>
+  <programme start="20261124001500 +0100" stop="20261124010000 +0100" channel="France2.fr">
+    <title lang="fr">62281876</title>
+    <desc lang="fr">Le groupe des naufragés doit composer avec une arrivée inattendue, liée au passé de Vetea, qui ravive méfiance et tensions. Les rivalités s'en trouvent intensifiées.</desc>
+    <category lang="fr">Série</category>
+    <icon src="http://static-cdn.tv.sfr.net/data/img/pl/7/1/2/16431217.jpg" />
+    <episode-num system="xmltv_ns">0.2.</episode-num>
+    <rating system="CSA">
+      <value>Tout public</value>
+    </rating>
+  </programme>
+  <programme start="20261124010000 +0100" stop="20261124013000 +0100" channel="France2.fr">
+    <title lang="fr">62281876</title>
+    <desc lang="fr">Le groupe des naufragés tente une percée décisive pour échapper à l'île, entre alliances fragiles et sacrifices douloureux. Mais l'expédition tourne au piège.</desc>
+    <category lang="fr">Série</category>
+    <icon src="http://static-cdn.tv.sfr.net/data/img/pl/7/1/2/16431217.jpg" />
+    <episode-num system="xmltv_ns">0.3.</episode-num>
+    <rating system="CSA">
+      <value>Tout public</value>
+    </rating>
+  </programme>
+  <programme start="20261124013000 +0100" stop="20261124013500 +0100" channel="France2.fr">
+    <title lang="fr">Expression directe</title>
+    <sub-title lang="fr">CGT-FO 2</sub-title>
+    <category lang="fr">Magazine d'information</category>
+    <icon src="http://static-cdn.tv.sfr.net/data/img/pl/7/3/8/15182837.jpg" />
+    <rating system="CSA">
+      <value>Tout public</value>
+    </rating>
+  </programme>
+  <programme start="20261124000500 +0100" stop="20261124005500 +0100" channel="TF1.fr">
+    <title lang="fr">New York Unité Spéciale</title>
+    <sub-title lang="fr">L'arbre à trophées</sub-title>
+    <desc lang="fr">Benson tente d'aider le membre du gang qui l'a attaquée, alors que Duarte trouve une preuve qui va choquer tout le monde. Fin embauche de nouveaux inspecteurs.</desc>
+    <category lang="fr">Série</category>
+    <icon src="http://static-cdn.tv.sfr.net/data/img/pl/8/3/4/15190438.jpg" />
+    <episode-num system="xmltv_ns">23.10.</episode-num>
+    <rating system="CSA">
+      <value>Tout public</value>
+    </rating>
+  </programme>
+  <programme start="20261124005500 +0100" stop="20261124014500 +0100" channel="TF1.fr">
+    <title lang="fr">New York Unité Spéciale</title>
+    <sub-title lang="fr">Le cercle de l'enfer</sub-title>
+    <desc lang="fr">Lors d'une pièce de théâtre interactive, une comédienne est violée sur scène devant tous les spectateurs, qui ne se rendent pas compte du drame qui se joue.</desc>
+    <category lang="fr">Série</category>
+    <icon src="http://static-cdn.tv.sfr.net/data/img/pl/8/3/4/15190438.jpg" />
+    <episode-num system="xmltv_ns">12.10.</episode-num>
+    <rating system="CSA">
+      <value>Tout public</value>
+    </rating>
+  </programme>
+  <programme start="20261124014500 +0100" stop="20261124024000 +0100" channel="TF1.fr">
+    <title lang="fr">New York Unité Spéciale</title>
+    <sub-title lang="fr">Compte à rebours</sub-title>
+    <desc lang="fr">Une jeune fille a été violée puis assassinée. Leur forfait accompli, ses agresseurs ont jeté son corps sur la chaussée : l'unité spéciale enquête.</desc>
+    <category lang="fr">Série</category>
+    <icon src="http://static-cdn.tv.sfr.net/data/img/pl/7/4/3/15578347.jpg" />
+    <episode-num system="xmltv_ns">1.14.</episode-num>
+    <rating system="CSA">
+      <value>Tout public</value>
+    </rating>
+  </programme>
+</tv>

@@ -1,8 +1,8 @@
 """The published window (PAST_DAYS before today to FUTURE_DAYS after) and the archives of past days.
 
 The sources only give today and the next days, so the past days of the window come from the archives: the JSON
-guides of the daily releases (`<YYYY-MM-DD>/<cc>.json.gz`, see publish.py), downloaded by the workflow. A channel a
-source no longer gives keeps its last good programmes the same way."""
+guides of the daily releases (`<YYYY-MM-DD>/<cc>.json.gz`, see publish/files.py), downloaded by the workflow.
+A channel a source no longer gives keeps its last good programmes the same way."""
 import gzip
 import json
 from collections import defaultdict
@@ -10,7 +10,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 from worldwide_tv_epg import config
-from worldwide_tv_epg.xmltv import Programme
+from worldwide_tv_epg.model import Programme
 
 
 def days(today: date, past: int = config.PAST_DAYS, future: int = config.FUTURE_DAYS) -> list[date]:

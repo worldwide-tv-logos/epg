@@ -1,4 +1,6 @@
-"""The channel registry of worldwide-tv-logos (channels.json, guides.json): our only source of channel IDs.
+"""Mapping of guide channels to the channel IDs of the registry of worldwide-tv-logos (channels.json,
+guides.json), our only source of channel IDs. Nothing is decided here: a wrong or missing mapping is fixed in
+the registry.
 
 A guide channel maps to a registry channel by its guide ID (guides.json, score >= MIN_SCORE, one best channel),
 else by its guide ID when it is the iptv-org ID of a registry channel (iptv-epg uses them), otherwise by a name
@@ -6,11 +8,11 @@ unique among the registry channels of the source's countries ("UK - BBC One": th
 Nothing is guessed: an ambiguous name maps to nothing."""
 import json
 import re
-import urllib.request
 from collections import defaultdict
 from dataclasses import dataclass, field
 
 from worldwide_tv_epg import config
+from worldwide_tv_epg.net import Downloader
 from worldwide_tv_epg.text import match_key
 
 _PREFIX = re.compile(r'^[A-Z]{2,3}\s+-\s+')     # "UK - BBC One", "IE - RTÉ One"
@@ -62,11 +64,7 @@ def build(channels_json: dict, guides_json: dict, min_score: float = config.MIN_
     return reg
 
 
-def _get_json(url: str) -> dict:
-    req = urllib.request.Request(url, headers={'User-Agent': config.USER_AGENT})
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        return json.load(resp)
-
-
-def load(base_url: str = config.REGISTRY_URL) -> Registry:
-    return build(_get_json(f'{base_url}/channels.json'), _get_json(f'{base_url}/guides.json'))
+def load(downloader: Downloader, base_url: str = config.REGISTRY_URL) -> Registry:
+    def get(name: str) -> dict:
+        return json.loads(downloader.get(f'registry/{name}', f'{base_url}/{name}'))
+    return build(get('channels.json'), get('guides.json'))

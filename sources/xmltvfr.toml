@@ -1,0 +1,14 @@
+# XML TV Fr: one file for France and the French-speaking channels of Belgium, Switzerland and Canada,
+# the longest horizon of the French sources (about 8 days).
+
+[provider]
+name = "XML TV Fr"
+kind = "xmltv"
+rank = 2
+role = "main"
+
+[[feed]]
+id = "xmltvfr"
+url = "https://xmltvfr.fr/xmltv/xmltv.xz"
+countries = ["fr", "be", "ch", "ca"]
+language = "fr"

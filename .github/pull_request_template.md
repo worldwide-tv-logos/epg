@@ -1,4 +1,4 @@
-<!-- Commit messages in English. A new source goes in sources.toml, in its order of preference. -->
+<!-- Commit messages in English. A new source is a provider file in sources/ (docs/adding-a-source.md), with its measure. -->
 
 ## What
 

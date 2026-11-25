@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tv source-info-name="IPTV-EPG.org" source-info-url="https://iptv-epg.org">
+  <channel id="France2.fr">
+    <display-name>FR - France 2</display-name>
+    <icon src="https://iptv-epg.org/images/y7wHbMsljz2nTsqePsThJRyMCl28aMNZR-VXeSgpn0VtRAdUNCoypq1qFCMzLw1VETAldbt3aT8_37mAqyRvONnZdjo_jbQ86okZl12gs94" />
+  </channel>
+  <channel id="TF1.fr">
+    <display-name>FR - TF1</display-name>
+    <icon src="https://iptv-epg.org/images/1lLergcJgBJQ8Ks6qfrknMqR5hdSPI686_eEgxSu-hoMoI1LNbHpvl0Sgt9ShljklZuk5IEzHm9enUj-oMsVQoJJGQwfheETyrquSQ" />
+  </channel>
+  <programme start="20261124162000 +0000" stop="20261124170100 +0000" channel="France2.fr">
+    <category lang="fr">Magazine de l'art de vivre</category>
+    <desc lang="fr">Affaire conclue, tout le monde a quelque chose à vendre.</desc>
+    <icon src="https://iptv-epg.org/images/jH4AKZ7HAz1aQHGhdi_Qe1B4kecKmgjKhpbATx6od02InbyJwocnAvGemkpBVryVNyePapWyhtq_DxRaQgpPpAqad5RwaOETWqGJkUEqQlDiDELkffvx" />
+    <title lang="fr">Affaire conclue, tout le monde a quelque chose à vendre</title>
+  </programme>
+  <programme start="20261124170100 +0000" stop="20261124173500 +0000" channel="France2.fr">
+    <category lang="fr">Jeu</category>
+    <desc lang="fr">E2237
+Tout le monde a son mot à dire.</desc>
+    <episode-num>E2237</episode-num>
+    <icon src="https://iptv-epg.org/images/hcgWlGS6ANbmk7ns5CJ0y8aWQVQ5P1NJCAOltvQY1Yts0ulUNqGSvTQpdSLqo9wiNNfvQNY9gQrBO_fEOg48gBaf7UayurEWBHQOJdod-705uyij0MUs" />
+    <title lang="fr">Tout le monde a son mot à dire</title>
+  </programme>
+  <programme start="20261124173500 +0000" stop="20261124181000 +0000" channel="France2.fr">
+    <category lang="fr">Jeu</category>
+    <desc lang="fr">N'oubliez pas les paroles.</desc>
+    <icon src="https://iptv-epg.org/images/dvtK8Bi4wqacgHc_nm9JBUkBI_yqyiVsKmx4wyBCNP2ZxMZw1O8gXoaChznunwNND2grXZTy7xT78NFueVEFxhhhIJC4kaRHDmdkY8EhRe63tpA-WbRB" />
+    <title lang="fr">N'oubliez pas les paroles</title>
+  </programme>
+  <programme start="20261124163000 +0000" stop="20261124173000 +0000" channel="TF1.fr">
+    <category lang="fr">Téléréalité</category>
+    <desc lang="fr">S14 E44
+La Quotidienne permettra de suivre les élèves au fil de leur semaine : cours, répétitions, évaluations, moments de vie et préparation du prochain prime. Chaque mercredi, après l'annonce des nommés par Mosimann, les téléspectateurs pourront soutenir leur candidat préféré en participant aux votes.</desc>
+    <episode-num>S14 E44</episode-num>
+    <icon src="https://iptv-epg.org/images/8mDZABqcjpjtN9bx6UCBN2377lDSydXEFkk7F9Q-cLlWJYWn-LWiUYRgjI1Czf4SdUkGUX0UZoHtdvlsW26L_3fuX_q5laCxvl1HZzdwy7-ng8MD5Dy5" />
+    <title lang="fr">Star Academy, la quotidienne</title>
+    <new />
+  </programme>
+  <programme start="20261124173000 +0000" stop="20261124181000 +0000" channel="TF1.fr">
+    <category lang="fr">Série dramatique</category>
+    <desc lang="fr">S7 E1574
+Teyssier tente de garder le cap, mais Rose est trahie. Hector fait son pastiche pour secouer Anouk. Milan et Bianca jouent les taupes pour leurs amis.</desc>
+    <episode-num>S7 E1574</episode-num>
+    <icon src="https://iptv-epg.org/images/pBZzytRJgk0ZywzR5z9FyIYYyT2Rr88y_VNgyIbLp2iGat3qLwzEVoo7HSUMhFwtRFIsmbKeU4iMMRFx7vlJ4Vlddlaz9YlaP8luo0yZzQIPyh2YPErl" />
+    <title lang="fr">Ici tout commence</title>
+  </programme>
+  <programme start="20261124181000 +0000" stop="20261124185500 +0000" channel="TF1.fr">
+    <category lang="fr">Série dramatique</category>
+    <desc lang="fr">S10 E2342
+Chacune à leur façon, Judith et Eden prennent les choses en main. Daniel met en place un règlement très strict. Gloria parasite la relation naissante de Georges.</desc>
+    <episode-num>S10 E2342</episode-num>
+    <icon src="https://iptv-epg.org/images/Y-b5ZaymaZFNoZpEJlGiYN8quRf9EDJQEyxB4ynNjVShkEFNVqZxHvjzppfgxJrv1tXjj1BQ5p92azsD5m_mOivFQs4_VlCJHKDY_KwGHGcTXGrDnfbX" />
+    <title lang="fr">Demain nous appartient</title>
+  </programme>
+</tv>
